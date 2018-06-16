@@ -1,2 +1,2 @@
-# dlrpy
-Deep learning In Python
+# JARVIS
+Just Another Rather Very Intelligent System
