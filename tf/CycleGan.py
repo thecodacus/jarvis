@@ -19,7 +19,9 @@ class CycleGan(object):
         self.img_width = img_width
         self.img_channel = img_channel
         if tensorboard:
-            keras.callbacks.TensorBoard(log_dir=logDir)
+            keras.callbacks.TensorBoard(log_dir=logDir, histogram_freq=0, batch_size=10, write_graph=True,
+                                        write_grads=False, write_images=False, embeddings_freq=0,
+                                        embeddings_layer_names=None, embeddings_metadata=None, embeddings_data=None)
 
     def _createGenerater(self,img_height, img_width, img_channel):
         depth = 64
@@ -143,22 +145,23 @@ class CycleGan(object):
         amAcc=0
         cygLoss=0
         cygAcc=0
+        dis.trainable=True
+        for i in range(10):
+            #train discriminator
+            generatedY = gen.predict(datasetX)
+            y = np.zeros([ datasetX.shape[ 0 ], 1 ])
+            disLoss, disAcc = dis.train_on_batch(generatedY, y)
 
-        #train discriminator
-        generatedY = gen.predict(datasetX)
-        y = np.zeros([ datasetX.shape[ 0 ], 1 ])
-        disLoss, disAcc = dis.train_on_batch(generatedY, y)
-
-        y = np.ones([datasetX.shape[0], 1])
-        #disLoss1=0
-        #disAcc1=0
-        disLoss1, disAcc1=dis.train_on_batch(datasetY, y)
+            y = np.ones([datasetX.shape[0], 1])
+            #disLoss1=0
+            #disAcc1=0
+            disLoss1, disAcc1=dis.train_on_batch(datasetY, y)
 
 
 
         disLoss=(disLoss+disLoss1)/2
         disAcc = (disAcc + disAcc1) / 2
-
+        dis.trainable = False
 
         #train the generater
         y = np.ones([datasetX.shape[0], 1])
