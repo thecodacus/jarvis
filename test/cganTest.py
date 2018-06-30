@@ -4,11 +4,11 @@ import numpy as np
 
 imageShape=(32,32,3)
 
-dl=DataLoader(path="../dataset",batchSize=10,imageSize=imageShape[0])
+dl=DataLoader(path="dataset",batchSize=10,imageSize=imageShape[0])
 
 cgan=CycleGan(imageShape[0], imageShape[1], imageShape[2])
 
-epochs=10
+epochs=100
 modelSavePath='cgan_saved'
 cgan.loadModel(modelSavePath)
 for i in range(epochs):
