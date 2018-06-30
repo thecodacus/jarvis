@@ -1,3 +1,4 @@
+import keras
 from keras.models import Model,Sequential
 from keras.layers import Dense, Input, Flatten
 from keras.layers import BatchNormalization,Activation,Reshape,LeakyReLU
@@ -8,7 +9,7 @@ import numpy as np
 import os
 
 class CycleGan(object):
-    def __init__(self, img_height, img_width, img_channel):
+    def __init__(self, img_height, img_width, img_channel, tensorboard=False,logDir="./logs"):
         self.FG = None
         self.BG = None
         self.D = None
@@ -17,6 +18,8 @@ class CycleGan(object):
         self.img_height = img_height
         self.img_width = img_width
         self.img_channel = img_channel
+        if tensorboard:
+            keras.callbacks.TensorBoard(log_dir=logDir)
 
     def _createGenerater(self,img_height, img_width, img_channel):
         depth = 64
