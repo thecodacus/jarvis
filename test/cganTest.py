@@ -2,7 +2,7 @@ from tf.CycleGan import CycleGan
 from utils.DataLoader import DataLoader
 import numpy as np
 
-imageShape=(112,112,3)
+imageShape=(32,32,3)
 
 dl=DataLoader(path="../dataset",batchSize=10,imageSize=imageShape[0])
 
