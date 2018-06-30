@@ -76,7 +76,7 @@ class CycleGan(object):
     def generaterModel(self):
         if self.FG:
             return self.FG
-        optimizer = RMSprop(lr=0.0002, decay=6e-8)
+        optimizer = RMSprop(lr=0.002, decay=6e-8)
         gen=self._createGenerater(self.img_height, self.img_width, self.img_channel)
         self.FG = Sequential()
         self.FG.add(gen)
@@ -86,7 +86,7 @@ class CycleGan(object):
     def discriminator(self):
         if self.D:
             return self.D
-        optimizer = RMSprop(lr=0.0002, decay=6e-8)
+        optimizer = RMSprop(lr=0.002, decay=6e-8)
         dis=self._createDiscriminator(self.img_height, self.img_width, self.img_channel)
         self.D = Sequential()
         self.D.add(dis)
@@ -96,7 +96,7 @@ class CycleGan(object):
     def backwardGeneraterModel(self):
         if self.BG:
             return self.BG
-        optimizer = RMSprop(lr=0.0002, decay=6e-8)
+        optimizer = RMSprop(lr=0.002, decay=6e-8)
         self.BG = Sequential()
         self.BG.add(self._createGenerater(self.img_height, self.img_width, self.img_channel))
         self.BG.compile(loss='mse', optimizer=optimizer, metrics=['accuracy'])
@@ -105,7 +105,7 @@ class CycleGan(object):
     def cycleModel(self):
         if self.CGAN:
             return self.CGAN
-        optimizer = RMSprop(lr=0.0002, decay=6e-8)
+        optimizer = RMSprop(lr=0.002, decay=6e-8)
         self.CGAN = Sequential()
         self.CGAN.add(self.generaterModel())
         self.CGAN.add(self.backwardGeneraterModel())
